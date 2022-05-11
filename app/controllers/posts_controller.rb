@@ -9,6 +9,11 @@ class PostsController < ApplicationController
 
     def show
         @post = Post.find(params[:id])
+        rescue ActiveRecord::RecordNotFound
+        
+        if @post.nil?
+            redirect_to posts_path
+        end
     end
 
     def edit
@@ -23,6 +28,13 @@ class PostsController < ApplicationController
         else
             render "edit"
         end
+    end
+
+    def destroy
+        @post = Post.find(params[:id])
+
+        @post.destroy
+        redirect_to posts_path
     end
 
     def create
